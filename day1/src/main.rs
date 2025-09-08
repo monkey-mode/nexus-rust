@@ -7,6 +7,9 @@ fn main() {
 
     println!("----------fn_const_static_return_format----------");
     fn_const_static_return_format();
+
+    println!("----------try_string----------");
+    try_string()
 }
 
 fn variable_println_assert_eq(){
@@ -132,4 +135,50 @@ fn fn_const_static_return_format(){
     // }
     println!("{TOTAL}");
 
+}
+
+fn try_string(){
+    // Start with str
+    let foo_str = "foo"; // &str 👈 Reference to a string slice.
+
+    // Try move str
+    let bar_str = foo_str;
+    println!("1. bar_str: {bar_str}");
+    println!("2. foo_str: {foo_str}");
+
+    // Now let's try String
+    let foo_string = foo_str.to_string(); // String 👈 So we can move it.
+
+    // Try move String.
+    let bar_string = foo_string;
+    println!("3. bar_string: {bar_string}");
+
+    // But foo_string is already moved. 💀
+    // 😱 You can try uncomment 👇 this to see an error.
+    // println!("foo_string:{foo_string}");
+    //                      ^^^^^^^^^^^^ value borrowed here after move
+
+    // So we need & to make a reference.
+    // 1️⃣ let other borrow `&` instead of move.
+    let borrowed_bar_string = &bar_string;
+    println!("4. bar_string: {bar_string}"); // Still can access.
+    println!("5. borrowed_bar_string: {borrowed_bar_string}"); // Also here.
+
+    // 2️⃣ or make a clone/copy instead of move.
+    let borrowed_bar_string = bar_string.clone();
+    println!("6. bar_string: {bar_string}"); // Still can access.
+    println!("7. borrowed_bar_string: {borrowed_bar_string}"); // Also here.
+
+
+    let foo_str = "str and String";
+    let bar_string = String::from("str and String");
+
+    // String → &str
+    let bar_str = bar_string.as_str();
+
+    println!("bar_string: {bar_string}");
+    println!("bar_str: {bar_str}");
+
+    // &str → String
+    assert_eq!(bar_string, foo_str.to_string());
 }
