@@ -3,7 +3,7 @@ resolver = "2"
 members = [
     "bar",
     "day1", 
-    "day2",
+    "day2", "day3",
     "hello-world",
 ]
 
